@@ -13,7 +13,7 @@ INode INode::fileINode(uint32_t fileSize, const std::vector<uint32_t>& blockIndi
     return node;
 }
 
-INode INode::rootNode() {
+INode INode::directoryNode(uint32_t blockIdx) {
     auto node = INode();
     const auto now = getTimestamp();
     node.createdTimestamp = now;
@@ -21,5 +21,6 @@ INode INode::rootNode() {
     node.fileSize = BLOCK_SIZE;
     node.linksCount = 1;
     node.type = DIRECTORY_TYPE;
+    node.blocks[0] = blockIdx;
     return node;
 }

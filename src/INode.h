@@ -16,6 +16,5 @@ struct INode {
     uint8_t type;
 
     static INode fileINode(uint32_t fileSize, const std::vector<uint32_t>& blockIndices);
-    static INode rootNode();
-    // static INode directoryINode(uint8_t parentINodeNumber, uint8_t selfINodeNumber);
+    static INode directoryNode(uint32_t blockIdx);
 };
