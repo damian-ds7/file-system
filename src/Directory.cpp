@@ -17,7 +17,7 @@ Directory::Directory(const uint8_t parentINodeNumber, const uint8_t selfINodeNum
 }
 
 void Directory::addEntry(const uint8_t iNodeNumber, const std::string& filename) {
-    for (auto &entry : entries) {
+    for (auto& entry : entries) {
         if (entry.filename[0] == '\0') {
             entry = DirectoryEntry(iNodeNumber, filename);
             return;
@@ -26,12 +26,30 @@ void Directory::addEntry(const uint8_t iNodeNumber, const std::string& filename)
     throw std::runtime_error("Directory already full");
 }
 
-void Directory::removeEntry(const uint8_t iNodeNumber) {
-    for (auto &entry : entries) {
-        if (entry.iNodeNumber == iNodeNumber) {
-            entry = DirectoryEntry();
-            return;
+int Directory::getEntryCount() const {
+    int count = 0;
+    for (auto& entry : entries) {
+        if (entry.iNodeNumber == 0) {
+            ++count;
         }
     }
-    throw std::runtime_error("Directory already full");
+    return count;
+}
+
+void Directory::removeEntry(uint8_t iNodeNumber) {
+    for (auto& entry : entries) {
+        if (entry.iNodeNumber == iNodeNumber) {
+            entry = DirectoryEntry();
+        }
+    }
+}
+
+
+DirectoryEntry* Directory::getEntry(const std::string& filename) {
+    for (auto& entry : entries) {
+        if (entry.filename == filename) {
+            return &entry;
+        }
+    }
+    throw std::runtime_error(filename + " not found");
 }
